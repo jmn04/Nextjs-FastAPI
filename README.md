@@ -3,6 +3,6 @@
 ### 利用技術
 - フロントエンド：Next.js（React）, TypeScript
 - サーバーサイド：FastAPI, OpenCV, MediaPipe（Python）
-- データベース：PostgreSQL
+- データベース：PostgreSQL（Pythonのクラスでモデル構築）
 
 保守性・堅牢性の観点から評価できる。
