@@ -1,0 +1,75 @@
+version: '3.9'
+
+services:
+
+  backend:
+    container_name: backend
+    build:
+      context: .
+      dockerfile: ./docker/backend/Dockerfile
+    volumes:
+      - ./backend/:/backend/
+    command: uvicorn main:app --reload --workers 1 --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - rdb
+    restart: always
+
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+      dockerfile: ./docker/frontend/Dockerfile
+    volumes:
+      - ./frontend/:/frontend/
+    ports:
+      - "3000:3000"
+    networks:
+      - default
+      - virtual-network
+    tty: true
+    restart: always
+    depends_on:
+      rdb:
+        condition: service_healthy
+
+  rdb:
+    container_name: rdb
+    build:
+      context: .
+      dockerfile: ./docker/rdb/Dockerfile
+    volumes:
+      - ./rdb/postgresql/data/:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    command: -p 5432
+    networks:
+      - default
+    tty: true
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -p 5432 -U rdb -d rdb"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  data:
+    driver: local
+
+networks:
+  virtual-network:
+    external: true
+
+# ネットワーク作成
+## docker network create virtual-network
+
+# ネットワーク削除
+## docker network rm virtual-network
+
+# イメージ作成 & コンテナ起動
+## docker-compose up -d --build
+
+# イメージ削除 & コンテナ削除
+## docker-compose down --rmi all
