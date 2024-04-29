@@ -22,7 +22,9 @@ U22プログラミングコンテストに向けて作成したアプリのリ�
 <br>
 
 ### 2. コンテナを構築する
-- `U22-ATRI`がカレントディレクトリであることを確認してください。
+- 初めに、Docker Desktopを起動してください。
+- コマンドプロンプトを立ち上げ、`git clone git@github.com:jmn04/U22_ATRI.git`を実行し、`U22-ATRI`リポジトリをローカルにクローンしてください。
+- `cd U22-ATRI`で`U22-ATRI`がカレントディレクトリになるようにします。
 - コマンドプロンプトにて`docker-compose build`を実行してdockerイメージをビルドします。
 ![docker-compose build](images/docker-compose_build_image.png)
 ![Docker Desktop build](images/docker-desktop_build_image.png)
